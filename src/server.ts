@@ -9,12 +9,13 @@ const app = express();
 // may require npm start launch to work (which we do)
 const VERSION = process.env.npm_package_version;
 const API_TITLE = process.env.npm_package_name;
+const AUTHOR = "Mitch Allen";
 
 app.get('/', (req, res) => {
   const record = {
     name: API_TITLE,
     version: VERSION,
-    author: 'Mitch Allen',
+    author: AUTHOR,
   }
   res.status(200).json(record);
 });
