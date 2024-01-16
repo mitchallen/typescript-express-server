@@ -9,6 +9,10 @@ An example of creating a Web server using TypeScript and Express.
 npm start
 ```
 
+After the server starts, browse to:
+
+* http://localhost:3000/
+
 * * *
 
 ## Setup Notes
