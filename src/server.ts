@@ -6,7 +6,6 @@ import * as express from 'express';
 
 const app = express();
 
-// may require npm start launch to work (which we do)
 const VERSION = process.env.npm_package_version;
 const API_TITLE = process.env.npm_package_name;
 const AUTHOR = "Mitch Allen";
