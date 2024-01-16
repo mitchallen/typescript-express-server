@@ -23,6 +23,22 @@ After the server starts, browse to:
 npm run push:patch
 ```
 
+If it fails with this message, need to grant permission:
+
+```sh
+denied: installation not allowed to Create organization package
+Error: Process completed with exit code 1.
+```
+
+To fix in the repo:
+
+* Click **Settings** 
+* Click **Actions** in the left sidebar
+* Click **General**
+* Under **Workflow permissions**:
+* Check **Read and write permissions**
+* Click **Save**
+
 * * *
 
 ## Setup Notes
