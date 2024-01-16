@@ -5,7 +5,6 @@
   "main": "./dist/server.js",
   "scripts": {
     "build": "tsc",
-    "prestart": "npm run build",
     "start": "node dist/server.js",
     "clean": "rm -rf dist",
     "test": "./node_modules/.bin/cucumber-js ./features/*.feature"

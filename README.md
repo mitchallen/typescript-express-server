@@ -6,6 +6,8 @@ An example of creating a Web server using TypeScript and Express.
 ## Usage
 
 ```sh
+npm run build 
+
 npm start
 ```
 
