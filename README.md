@@ -111,6 +111,32 @@ npm install @types/express --save-dev
 
 * * *
 
+## Testing
+
+### Setup
+
+```sh
+npm install --save-dev axios @cucumber/cucumber
+```
+
+### Create features folder
+
+Note that the steps file is **.js** file (may change)
+
+```sh
+mkdir features
+touch features/server.feature
+touch features/server-steps.js
+```
+
+Update the test script in **package.json**
+
+```json
+"test": "./node_modules/.bin/cucumber-js ./features/*.feature"
+```
+
+* * *
+
 ## References
 
 * [Getting Started with TypeScript (Hello World, Mac)](https://scriptable.com/typescript/getting-started-with-typescript-hello-world)
