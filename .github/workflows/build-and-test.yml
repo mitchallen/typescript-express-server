@@ -1,0 +1,36 @@
+
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "!**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 
+        uses: actions/setup-node@v4
+        with:
+          node-version: "21.5"
+
+      - name: Print Package Version
+        run: cat package.json | grep version  
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Start Server
+        run: npm start &
+
+      - name: Run Tests
+        run: npm test
