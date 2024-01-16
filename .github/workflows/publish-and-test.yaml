@@ -1,0 +1,72 @@
+name: Publish and Test
+
+env:
+  DOCKER_TAG: ${GITHUB_REF_NAME#v}
+  REPO_PATH: $GITHUB_REPOSITORY
+  REPO_FOLDER: ${GITHUB_REPOSITORY#*/}
+  GH_IMAGE: ghcr.io/${GITHUB_REPOSITORY}
+
+on:
+  push:
+    tags:
+      - 'v*'
+      
+jobs:
+  publish-docker-image:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+
+      - name: Checkout Files
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build the Docker image
+        id: build-docker-image
+        run: |
+          docker_tag=${{ env.DOCKER_TAG }}
+          gh_image=${{ env.GH_IMAGE }}
+          docker build . -t ${gh_image}:${docker_tag} -t ${gh_image}:latest
+          docker push ${gh_image} --all-tags
+          echo "DOCKER_IMAGE=${gh_image}" >> $GITHUB_OUTPUT
+          echo "DOCKER_TAG=${docker_tag}" >> $GITHUB_OUTPUT
+
+      - name: Run Docker Container
+        id: run-docker-container
+        env:
+          DOCKER_IMAGE: ${{ steps.build-docker-image.outputs.DOCKER_IMAGE }}
+          DOCKER_TAG: ${{ steps.build-docker-image.outputs.DOCKER_TAG }}
+        run: |
+          echo "Docker image: ${DOCKER_IMAGE}"
+          echo "Docker tag: ${DOCKER_TAG}"
+          docker run -d -p 3000:3000 ${DOCKER_IMAGE}:${DOCKER_TAG}
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: "21.5"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: CLean TypeScript Project
+        run: npm run clean
+
+      - name: Run TypeScript Build
+        run: npm run build
+
+      - name: Test Docker Container
+        id: test-docker-container
+        run: |
+          curl http://localhost:3000/
+          npm test
+
+          
+          

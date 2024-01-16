@@ -17,6 +17,14 @@ After the server starts, browse to:
 
 * * *
 
+## Patch
+
+```sh
+npm run push:patch
+```
+
+* * *
+
 ## Setup Notes
 
 Here are my notes from creating this project

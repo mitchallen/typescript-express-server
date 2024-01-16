@@ -7,6 +7,18 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "clean": "rm -rf dist",
+    "preversion": "echo pre-version TODO - start server, put tests here after",
+    "version": "echo calling version",
+    "postversion": "git push && git push origin --tags",
+    "push:patch": "git checkout main && npm version patch -m \"upgrade to %s \"",
+    "docker:clean": "docker stop ts-server && docker rm ts-server && docker rmi ts-svc",
+    "docker:build": "docker build . -t ts-svc",
+    "predocker:run": "npm run docker:build",
+    "docker:run": "docker run -d -p 3000:3000 --restart always --name ts-server ts-svc",
+    "postdocker:run": "docker ps --size | grep ts-svc && echo open localhost:3000",
+    "docker:rerun": "npm run docker:clean || true && npm run docker:run",
+    "docker:stop": "docker stop ts-server",
+    "docker:start": "docker start ts-server",
     "test": "./node_modules/.bin/cucumber-js ./features/*.feature"
   },
   "keywords": [
