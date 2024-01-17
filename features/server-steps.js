@@ -32,7 +32,7 @@ When('the root endpoint is requested', async function () {
     this.world.root.response = await axios.get(this.world.serviceUrl);
 })
 
-Then('the response should contain a version property',  async function () {
+Then('the response contains a version property',  async function () {
     const response = this.world.root.response;
     assert.ok(response.data.version)
 })
